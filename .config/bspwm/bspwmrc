@@ -1,0 +1,72 @@
+#! /bin/sh
+
+export PATH="$HOME"/.config/bspwm/scripts:$PATH
+export XDG_CURRENT_DESKTOP='bspwm'
+
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+#bspc monitor -d I II III IV V VI
+for monitor in $(xrandr -q | grep -w 'connected' | cut -d ' ' -f1); do
+    bspc monitor "$monitor" -d '1' '2' '3' '4' '5' '6'
+done
+
+bspc config_external_rules_command "$(which ExternalRules)"
+
+
+bspc config window_gap           15
+
+bspc config split_ratio          0.51
+bspc config single_monocle  	 true
+bspc config borderless_monocle   false
+bspc config gapless_monocle      false
+
+bspc config focus_follows_pointer     true
+bspc config pointer_follows_focus     false
+bspc config pointer_motion_interval   5
+bspc config pointer_modifier          mod4
+bspc config pointer_action1           move
+bspc config pointer_action2           resize_side
+bspc config pointer_action3           resize_corner
+
+bspc config border_width 1
+bspc config top_padding 40
+bspc config bottom_padding 2
+bspc config left_padding 5
+bspc config right_padding 2
+bspc config normal_border_color "#C574DD"
+bspc config active_border_color "#5ADECD"
+bspc config focused_border_color "#0d0f18"
+bspc config presel_feedback_color "#F37F97"
+
+bspc rule -a scratch sticky=on state=floating focus=on
+bspc rule -a firefox desktop='^3' follow on
+
+#AutoStart Apps
+
+sxhkd -c "$HOME"/.config/bspwm/sxhkdrc & 
+
+picom --config "$HOME"/.config/bspwm/picom.conf &
+
+nitrogen --restore &
+
+dunst -config "$HOME"/.config/dunst/dunstrc &
+
+feh -z --no-fehbg --bg-fill "$HOME"/.config/bspwm/walls
+
+pidof -q eww || { eww -c "$HOME"/.config/bspwm/eww daemon & }
+
+pidof -q greenclip || { greenclip daemon & }
+
+pidof -q polkit-gnome-authentication-agent-1 || { /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & }
+
+
+xsetroot -Elementary left_pr
+
+
+
+
+
+"$HOME"/.config/polybar/launch.sh
