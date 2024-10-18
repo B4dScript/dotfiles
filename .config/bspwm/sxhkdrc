@@ -10,20 +10,14 @@ super + alt + Return
     tdrop -a -w 70% -h 35% -y 0 -x 15% kitty
 # Application menu
 super + @space
-	OpenApps --menu
+	rofi -show drun -theme "$HOME"/.config/bspwm/scripts/rofi-themes/Launcher.rasi 
+
 
 #####
 
 # Apps (browser, editor, filemanager)
 shift + alt + b
     firefox state=floating
-# Terminal apps (ranger, nvim, ncmpcpp)
-shift + alt + {r,v,k}
-	OpenApps {--ranger,--nvim,--music}
-
-# Pavucontrol
-shift + alt + p
-	OpenApps --soundcontrol
 
 
 #|||----- System Keybindings -----|||#
@@ -52,16 +46,12 @@ super + alt + w
 
 # Mount Android phones
 super + alt + a
-	OpenApps --android
+	AndroidMount
 
 # Network Manager
-super + alt + n
-	OpenApps --netmanager
 
 # Clipboard
-super + alt + c
-	OpenApps --clipboard
-
+super + alt + c 
 # Screenshot
 super + alt + s
 	flameshot gui
@@ -69,8 +59,7 @@ super + alt + s
 
 # PowerMenu
 super + alt + p
-	OpenApps --powermenu
-
+    PowerMenu
 # Manage brightness
 XF86MonBrightness{Up,Down}
     sh Brightness {up,down}
